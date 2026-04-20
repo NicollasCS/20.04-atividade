@@ -1,17 +1,17 @@
-let authors = {
-  last: 3,
-  1: {
-    name: 'Waldisraine da Silva',
-    age: 36,
-  },
-  2: {
-    name: 'Cleberson dos Santos',
-    age: 36,
-  },
-  3: {
-    name: 'Roberwall Perreira',
-    age: 36,
-  },
+let cardapio = {
+  last: 2,
+  itens: [
+    {
+      id: 1,
+      name: 'banana split valorant',
+      preco: 67
+    },
+    {
+      id: 2,
+      name: 'sorvete de morango',
+      preco: 69
+    }
+  ]
 };
 
 module.exports = cardapio;
