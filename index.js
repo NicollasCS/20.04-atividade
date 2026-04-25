@@ -1,11 +1,20 @@
 const express = require("express")
 const routes = require("./src/config/routes")
+const { initDatabase } = require("./src/config/db")
 
 let app = express()
 app.use(express.json())
 
 routes(app)
 
-app.listen(3000, ()=>{
-  console.log("Server is running on http://127.0.0.1:3000")
-})
+;(async () => {
+  try {
+    await initDatabase()
+    app.listen(3000, () => {
+      console.log("Server is running on http://127.0.0.1:3000")
+    })
+  } catch (error) {
+    console.error("Failed to initialize database:", error)
+    process.exit(1)
+  }
+})()

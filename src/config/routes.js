@@ -2,47 +2,63 @@ const pedidos_controller = require('../controllers/pedidos_controller');
 const cardapio_controller = require('../controllers/cardapio_controller');
 
 function routes(app) {
-  // routes of pedidos
-  app.get('/pedidos/', (req, res) => {
-    res.send(JSON.stringify(pedidos_controller.index(req, res)));
-  });
+  app.get('/pedidos', async (req, res) => {
+    const result = await pedidos_controller.index(req, res)
+    res.json(result)
+  })
 
-  app.get('/pedidos/:id', (req, res) => {
-    res.send(JSON.stringify(pedidos_controller.show(req, res)));
-  });
+  app.get('/pedidos/:id', async (req, res) => {
+    const result = await pedidos_controller.show(req, res)
+    if (result.error) return res.status(404).json(result)
+    res.json(result)
+  })
 
-  app.post('/pedidos/', (req, res) => {
-    res.send(JSON.stringify(pedidos_controller.create(req, res)));
-  });
+  app.post('/pedidos', async (req, res) => {
+    const result = await pedidos_controller.create(req, res)
+    if (result.error) return res.status(400).json(result)
+    res.status(201).json(result)
+  })
 
-  app.put('/pedidos/:id', (req, res) => {
-    res.send(JSON.stringify(pedidos_controller.update(req, res)));
-  });
+  app.put('/pedidos/:id', async (req, res) => {
+    const result = await pedidos_controller.update(req, res)
+    if (result.error) return res.status(404).json(result)
+    res.json(result)
+  })
 
-  app.delete('/pedidos/:id', (req, res) => {
-    res.send(JSON.stringify(pedidos_controller.delete(req, res)));
-  });
+  app.delete('/pedidos/:id', async (req, res) => {
+    const result = await pedidos_controller.delete(req, res)
+    if (result.error) return res.status(404).json(result)
+    res.json(result)
+  })
 
-  // routes of cardapio
-  app.get('/cardapio/', (req, res) => {
-    res.send(JSON.stringify(cardapio_controller.index(req, res)));
-  });
+  app.get('/cardapio', async (req, res) => {
+    const result = await cardapio_controller.index(req, res)
+    res.json(result)
+  })
 
-  app.get('/cardapio/:id', (req, res) => {
-    res.send(JSON.stringify(cardapio_controller.show(req, res)));
-  });
+  app.get('/cardapio/:id', async (req, res) => {
+    const result = await cardapio_controller.show(req, res)
+    if (result.error) return res.status(404).json(result)
+    res.json(result)
+  })
 
-  app.post('/cardapio/', (req, res) => {
-    res.send(JSON.stringify(cardapio_controller.create(req, res)));
-  });
+  app.post('/cardapio', async (req, res) => {
+    const result = await cardapio_controller.create(req, res)
+    if (result.error) return res.status(400).json(result)
+    res.status(201).json(result)
+  })
 
-  app.put('/cardapio/:id', (req, res) => {
-    res.send(JSON.stringify(cardapio_controller.update(req, res)));
-  });
+  app.put('/cardapio/:id', async (req, res) => {
+    const result = await cardapio_controller.update(req, res)
+    if (result.error) return res.status(404).json(result)
+    res.json(result)
+  })
 
-  app.delete('/cardapio/:id', (req, res) => {
-    res.send(JSON.stringify(cardapio_controller.delete(req, res)));
-  });
+  app.delete('/cardapio/:id', async (req, res) => {
+    const result = await cardapio_controller.delete(req, res)
+    if (result.error) return res.status(404).json(result)
+    res.json(result)
+  })
 }
 
 module.exports = routes;

@@ -1,44 +1,43 @@
-const cardapio = require('../models/cardapio');
 const Cardapio = require('../models/cardapio');
 
 class CardapioController {
-  static index(req, res) {
-    return Cardapio;
+  static async index(req, res) {
+    return await Cardapio.getAll();
   }
 
-  static show(req, res) {
-    return Cardapio[req.params.id];
+  static async show(req, res) {
+    const id = Number(req.params.id);
+    const item = await Cardapio.getById(id);
+    if (!item) return { error: 'Item não encontrado' };
+    return item;
   }
 
-  static create(req, res) {
-    const { name, preco } = req.body;
-    let author = {
-      name: name,
-      preco: preco,
-    };
+  static async create(req, res) {
+    const { name, categoria, descricao, preco, disponivel = true } = req.body;
+    if (!name || !categoria || preco === undefined) {
+      return { error: 'name, categoria e preco são obrigatórios' };
+    }
 
-    Cardapio[Cardapio.last + 1] = cardapio;
-    Cardapio.last += 1;
-
-    return cardapio;
+    return await Cardapio.create({
+      name,
+      categoria,
+      descricao: descricao || '',
+      preco: Number(preco),
+      disponivel: Boolean(disponivel),
+    });
   }
 
-  static update(req, res) {
-    const { id } = req.params;
-    const { name, preco } = req.body;
-
-    let Author = Object(Cardapio[id]);
-    if (name !== undefined) Author.name = name;
-    if (preco !== undefined) Author.preco = preco;
-
-    Cardapio[id] = Author;
-    return Author;
+  static async update(req, res) {
+    const id = Number(req.params.id);
+    const item = await Cardapio.update(id, req.body);
+    if (!item) return { error: 'Item não encontrado' };
+    return item;
   }
 
-  static delete(req, res) {
-    const { id } = req.params;
-    Cardapio[id] = null;
-
+  static async delete(req, res) {
+    const id = Number(req.params.id);
+    const success = await Cardapio.delete(id);
+    if (!success) return { error: 'Item não encontrado' };
     return { success: true };
   }
 }
